@@ -29,7 +29,7 @@ class App extends Component {
       }).catch(err => console.log('error', err))
   }
 
-  updatePost() {
+  updatePost(id, text) {
     axios.put(`${baseUrl}/posts/${id}`, {text})
       .then(res => {
         this.setState({ posts: res.data})
@@ -37,7 +37,7 @@ class App extends Component {
   
   }
 
-  deletePost() {
+  deletePost(id) {
     axios.delete(`${baseUrl}/posts/${id}`)
     .then(res => {
       this.setState({ posts: res.data})
@@ -45,7 +45,11 @@ class App extends Component {
 
   }
 
-  createPost() {
+  createPost(text) {
+    axios.post(`${baseUrl}/posts`, {text})
+    .then(res => {
+      this.setState({posts: res.data})
+    })
 
   }
 
@@ -58,7 +62,7 @@ class App extends Component {
 
         <section className="App__content">
 
-          <Compose />
+          <Compose createPostFn={this.createPost}/>
           {
             posts.map(post => (
               <Post key={post.id} 
